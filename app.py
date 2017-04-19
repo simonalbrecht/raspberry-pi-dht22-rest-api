@@ -9,7 +9,7 @@ app = Flask(__name__)
 sensor_name = 'Sensor'
 gpio_pin = 4
 
-last_measurement = (0, 0)
+last_measurement = (None, None)
 last_measurement_time = None
 
 debug_mode = False
@@ -67,6 +67,7 @@ def get_measurement():
         last_measurement_time = now
 
         if temperature is not None and humidity is not None:
+            print('New measurement: Temp={0:0.1f}C  Humidity={1:0.1f}%'.format(temperature, humidity))
             last_measurement = (temperature, humidity)
 
     return last_measurement
