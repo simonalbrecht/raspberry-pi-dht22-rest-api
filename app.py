@@ -65,45 +65,39 @@ def get_measurement():
     if last_measurement_time is None or now > get_next_possible_measurement_time(last_measurement_time):
         last_measurement_time = now
         last_measurement = Adafruit_DHT.read(Adafruit_DHT.DHT22, gpio_pin) if not debug_mode else debug_measurement
-    
+
     return last_measurement
 
 
 def get_next_possible_measurement_time(current_time):
-    return current_time + datetime.timedelta(seconds=2)
+    return current_time + datetime.timedelta(seconds=3)
 
 @app.route('/api/v1/temperature', methods=['GET'])
 def get_temperature():
     temperature = get_measurement()[0]
     return jsonify({
-        'name': sensor_name + ': Temperature',
-        'state': {
-            'value': temperature,
-            'timestamp': last_measurement_time.isoformat()
-        }
+        'name': sensor_name, 
+        'temperature': temperature, 
+        'timestamp': last_measurement_time.isoformat()
     })
 
 @app.route('/api/v1/humidity', methods=['GET'])
 def get_humidity():
     humidity = get_measurement()[0]
     return jsonify({
-        'name': sensor_name + ': Humidity',
-        'state': {
-            'value': humidity,
-            'timestamp': last_measurement_time.isoformat()
-        }
+        'name': sensor_name, 
+        'humidity': humidity, 
+        'timestamp': last_measurement_time.isoformat()
     })
 
 @app.route('/api/v1/temperature+humidity', methods=['GET'])
 def get_temperature_and_humidity():
-    measurement = get_measurement()
+    temperature, humidity = get_measurement()
     return jsonify({
-        'name': sensor_name + ': Temperature + Humidity',
-        'state': {
-            'temperature': measurement[0],
-            'humidity': measurement[1],
-            'timestamp': last_measurement_time.isoformat()
-        }
+        'name': sensor_name, 
+        'temperature': temperature,
+        'humidity': humidity, 
+        'timestamp': last_measurement_time.isoformat()
     })
 
 if __name__ == '__main__':
