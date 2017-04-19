@@ -9,9 +9,6 @@ app = Flask(__name__)
 sensor_name = 'Sensor'
 gpio_pin = 4
 
-last_measurement = (0, 0)
-last_measurement_time = None
-
 debug_mode = False
 debug_measurement = (22.7, 32)
 
@@ -58,19 +55,7 @@ def flaskrun(app,
     )
 
 def get_measurement():
-    global last_measurement
-    global last_measurement_time
-
-    now = datetime.datetime.now()
-    if last_measurement_time is None or now > get_next_possible_measurement_time(last_measurement_time):
-        last_measurement_time = now
-        last_measurement = Adafruit_DHT.read(Adafruit_DHT.DHT22, gpio_pin) if not debug_mode else debug_measurement
-
-    return last_measurement
-
-
-def get_next_possible_measurement_time(current_time):
-    return current_time + datetime.timedelta(seconds=3)
+    return Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, gpio_pin) if not debug_mode else debug_measurement
 
 @app.route('/api/v1/temperature', methods=['GET'])
 def get_temperature():
