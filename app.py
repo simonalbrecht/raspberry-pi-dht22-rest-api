@@ -64,9 +64,9 @@ def get_measurement():
     now = datetime.datetime.now()
     if last_measurement_time is None or now > get_next_possible_measurement_time(last_measurement_time):
         temperature, humidity = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, gpio_pin) if not debug_mode else debug_measurement
+        last_measurement_time = now
 
-        if temperature is not None and humidity is not None:
-            last_measurement_time = now
+        if temperature is not None and humidi./ty is not None:
             last_measurement = (temperature, humidity)
 
     return last_measurement
