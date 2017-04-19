@@ -63,12 +63,12 @@ def get_measurement():
 
     now = datetime.datetime.now()
     if last_measurement_time is None or now > get_next_possible_measurement_time(last_measurement_time):
-        temperature, humidity = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, gpio_pin) if not debug_mode else debug_measurement
+        humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, gpio_pin) if not debug_mode else debug_measurement
         last_measurement_time = now
 
-        if temperature is not None and humidity is not None:
+        if humidity is not None and temperature is not None:
             print('New measurement: Temp={0:0.1f}C  Humidity={1:0.1f}%'.format(temperature, humidity))
-            last_measurement = (temperature, humidity)
+            last_measurement = (humidity, temperature)
 
     return last_measurement
 
@@ -78,7 +78,7 @@ def get_next_possible_measurement_time(current_time):
 
 @app.route('/api/v1/temperature', methods=['GET'])
 def get_temperature():
-    temperature = get_measurement()[0]
+    temperature = get_measurement()[1]
     return jsonify({
         'name': sensor_name, 
         'temperature': temperature, 
@@ -96,7 +96,7 @@ def get_humidity():
 
 @app.route('/api/v1/temperature+humidity', methods=['GET'])
 def get_temperature_and_humidity():
-    temperature, humidity = get_measurement()
+    humidity, temperature = get_measurement()
     return jsonify({
         'name': sensor_name, 
         'temperature': temperature,
