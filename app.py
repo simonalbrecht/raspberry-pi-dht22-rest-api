@@ -63,7 +63,7 @@ def get_temperature():
     return jsonify({
         'name': sensor_name, 
         'temperature': temperature, 
-        'timestamp': datetime.datetime.now().isoformat()
+        'timestamp': last_measurement_time.isoformat()
     })
 
 @app.route('/api/v1/humidity', methods=['GET'])
@@ -72,7 +72,7 @@ def get_humidity():
     return jsonify({
         'name': sensor_name, 
         'humidity': humidity, 
-        'timestamp': datetime.datetime.now().isoformat()
+        'timestamp': last_measurement_time.isoformat()
     })
 
 @app.route('/api/v1/temperature+humidity', methods=['GET'])
@@ -82,7 +82,7 @@ def get_temperature_and_humidity():
         'name': sensor_name, 
         'temperature': temperature,
         'humidity': humidity, 
-        'timestamp': datetime.datetime.now().isoformat()
+        'timestamp': last_measurement_time.isoformat()
     })
 
 if __name__ == '__main__':
