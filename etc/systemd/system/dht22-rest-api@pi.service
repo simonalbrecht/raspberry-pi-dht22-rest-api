@@ -1,0 +1,11 @@
+[Unit]
+Description=DHT22 Rest API Service for Raspberry Pi
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+ExecStart=/opt/simonalbrecht/raspberry-pi-dht22-rest-api/flask/bin/python /opt/simonalbrecht/raspberry-pi-dht22-rest-api/app.py -H 0.0.0.0 -G 4 -N "Room Name"
+
+[Install]
+WantedBy=multi-user.target
