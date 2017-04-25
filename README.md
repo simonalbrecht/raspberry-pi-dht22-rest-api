@@ -38,6 +38,16 @@ The following REST endpoints are exposed:
 * [http://localhost:5000/api/v1/humidity](http://localhost:5000/api/v1/humidity)
 * [http://localhost:5000/api/v1/temperature+humidity](http://localhost:5000/api/v1/temperature+humidity)
 
+*Example Output*
+```
+{
+  "humidity": 33.400001525878906,
+  "name": "Buero",
+  "temperature": 23.299999237060547,
+  "timestamp": "2017-04-25T09:05:15.162306"
+}
+```
+
 ## Configuration
 This applicaiton assumes that the DHT22 data pin is pin *5* on the Raspberry GPIO. This setting can be changed by passing in the `--gpio-pin` command line parameter.
 
